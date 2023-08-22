@@ -59,5 +59,11 @@ def test_instantiate_from_csv():
     item1 = Item.all[0]
     assert item1.name == 'Смартфон'
 
+def test_repr(item_smartphone):
+    """Проверяем наш магический метод"""
+    assert repr(item_smartphone) == "Item('Смартфон', 10000, 20)"
 
+def test_str(item_smartphone):
+    """Проверяем наш магический метод"""
+    assert  str(item_smartphone) == 'Смартфон'
 

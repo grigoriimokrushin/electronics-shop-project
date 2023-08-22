@@ -20,6 +20,15 @@ class Item:
         self.price = price
         self.quantity = quantity
 
+    def __repr__(self):
+        """Магический метод для отладки разработчикомю"""
+        return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        """Магический метод для нашего пользователя."""
+        return f"{self.__name}"
+
+
     @property
     def name(self):
         """Возвращает название товара, к атрибуту можно обращаться без()."""
