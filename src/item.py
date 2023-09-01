@@ -1,6 +1,5 @@
 import csv
 import os.path
-import src
 
 
 class Item:
@@ -23,13 +22,17 @@ class Item:
         self.quantity = quantity
 
     def __repr__(self):
-        """Магический метод для отладки разработчикомю"""
+        """Магический метод для отладки разработчиком."""
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
 
     def __str__(self):
         """Магический метод для нашего пользователя."""
         return f"{self.__name}"
 
+    def __add__(self, other):
+        """Метод сложения для классов Item и Phone с проверкой."""
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
 
     @property
     def name(self):
@@ -47,7 +50,6 @@ class Item:
         else:
             self.__name = name[:10]
 
-
     @classmethod
     def instantiate_from_csv(cls):
         """Инициализирует экземпляры класса Item данными из файла src/items.csv"""
@@ -56,8 +58,6 @@ class Item:
             reader = csv.DictReader(csv_file)
             for line in reader:
                 cls.all.append(cls(line['name'], line['price'], line['quantity']))
-
-
 
     def calculate_total_price(self) -> float:
         """

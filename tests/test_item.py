@@ -1,12 +1,18 @@
-"""Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
 from src.item import Item
+from src.phone import Phone
 
 
 @pytest.fixture
 def item_smartphone():
     """Зададим фикстуру с экземпляром класса."""
     return Item("Смартфон", 10000, 20)
+
+
+@pytest.fixture
+def iphone():
+    """Зададим фикстуру с экземпляром класса."""
+    return Phone("Смартфон", 10000, 20, 2)
 
 
 def test_item_init(item_smartphone):
@@ -29,6 +35,7 @@ def test_apply_discount():
     item1.apply_discount()
     assert item1.price == 8000.0
 
+
 def test_name(item_smartphone):
     """
     Проверяем как записывается name через setter
@@ -39,6 +46,7 @@ def test_name(item_smartphone):
     item_smartphone.name = 'СуперСмартфон'
     assert item_smartphone.name == 'СуперСмарт'
 
+
 def test_string_to_number():
     """
     Проверяем как работает статический
@@ -47,6 +55,7 @@ def test_string_to_number():
     assert Item.string_to_number('5') == 5
     assert Item.string_to_number('5.0') == 5
     assert Item.string_to_number('5.5') == 5
+
 
 def test_instantiate_from_csv():
     """
@@ -59,11 +68,17 @@ def test_instantiate_from_csv():
     item1 = Item.all[0]
     assert item1.name == 'Смартфон'
 
+
 def test_repr(item_smartphone):
-    """Проверяем наш магический метод"""
+    """Проверяем наш магический метод."""
     assert repr(item_smartphone) == "Item('Смартфон', 10000, 20)"
 
-def test_str(item_smartphone):
-    """Проверяем наш магический метод"""
-    assert  str(item_smartphone) == 'Смартфон'
 
+def test_str(item_smartphone):
+    """Проверяем наш магический метод."""
+    assert str(item_smartphone) == 'Смартфон'
+
+
+def test_add(item_smartphone, iphone):
+    """Проверяем как складываются экземпляры классов."""
+    assert item_smartphone + iphone == 40
