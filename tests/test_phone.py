@@ -19,6 +19,11 @@ def test_item_init(item_smartphone):
     assert item_smartphone.number_of_sim == 4
 
 
+def test_init():
+    with pytest.raises(AttributeError):
+        repr(Phone("iPhone 14", 120_000, 5, 0))
+
+
 def test_repr(item_smartphone):
     """Проверяем наш магический метод."""
     assert repr(item_smartphone) == "Phone('iPhone 14', 120000, 5, 2)"
