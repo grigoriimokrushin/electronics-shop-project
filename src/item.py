@@ -2,6 +2,14 @@ import csv
 import os.path
 
 
+class InstantiateCSVError(Exception):
+    """Исключение выбрасывается, если файл item.csv поврежден (например, отсутствует одна из колонок данных)."""
+
+    def __init__(self, message="Файл item.csv поврежден"):
+        self.message = message
+        super().__init__(self.message)
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -52,13 +60,21 @@ class Item:
             self.__name = name[:10]
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, file_name='items.csv'):
         """Инициализирует экземпляры класса Item данными из файла src/items.csv"""
-        ITEMS_CSV_PATH = os.path.join(os.path.dirname(__file__), 'items.csv')
-        with open(ITEMS_CSV_PATH) as csv_file:
-            reader = csv.DictReader(csv_file)
-            for line in reader:
-                cls.all.append(cls(line['name'], line['price'], line['quantity']))
+        try:
+            ITEMS_CSV_PATH = os.path.join(os.path.dirname(__file__), file_name)
+            with open(ITEMS_CSV_PATH) as csv_file:
+                reader = csv.DictReader(csv_file)
+                for line in reader:
+                    if 'name' in line and 'price' in line and 'quantity' in line:
+                        cls.all.append(cls(line['name'], line['price'], line['quantity']))
+                    else:
+                        raise InstantiateCSVError
+        except FileNotFoundError:
+            print('Отсутствует файл items.csv')
+        except InstantiateCSVError as e:
+            print(e)
 
     def calculate_total_price(self) -> float:
         """

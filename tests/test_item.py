@@ -1,5 +1,5 @@
 import pytest
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 
 
@@ -67,6 +67,13 @@ def test_instantiate_from_csv():
     assert len(Item.all) == 5
     item1 = Item.all[0]
     assert item1.name == 'Смартфон'
+
+
+def test_raises_csv():
+    """Проверяем класс InstantiateCSVError и отработку исключения."""
+    with pytest.raises(InstantiateCSVError, match="Файл item.csv поврежден"):
+        raise InstantiateCSVError
+    assert Item.instantiate_from_csv(file_name="") is None
 
 
 def test_repr(item_smartphone):

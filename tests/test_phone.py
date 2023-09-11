@@ -20,7 +20,7 @@ def test_item_init(item_smartphone):
 
 
 def test_init():
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         repr(Phone("iPhone 14", 120_000, 5, 0))
 
 
