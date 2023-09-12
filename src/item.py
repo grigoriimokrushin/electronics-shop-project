@@ -5,7 +5,7 @@ import os.path
 class InstantiateCSVError(Exception):
     """Исключение выбрасывается, если файл item.csv поврежден (например, отсутствует одна из колонок данных)."""
 
-    def __init__(self, message="Файл item.csv поврежден"):
+    def __init__(self, message="Файл items.csv поврежден"):
         self.message = message
         super().__init__(self.message)
 
@@ -72,9 +72,7 @@ class Item:
                     else:
                         raise InstantiateCSVError
         except FileNotFoundError:
-            print('Отсутствует файл items.csv')
-        except InstantiateCSVError as e:
-            print(e)
+            raise FileNotFoundError('Отсутствует файл items.csv')
 
     def calculate_total_price(self) -> float:
         """

@@ -71,9 +71,10 @@ def test_instantiate_from_csv():
 
 def test_raises_csv():
     """Проверяем класс InstantiateCSVError и отработку исключения."""
-    with pytest.raises(InstantiateCSVError, match="Файл item.csv поврежден"):
-        raise InstantiateCSVError
-    assert Item.instantiate_from_csv(file_name="") is None
+    with pytest.raises(InstantiateCSVError, match="Файл items.csv поврежден"):
+        Item.instantiate_from_csv(file_name="items_test.csv")
+    with pytest.raises(FileNotFoundError, match="Отсутствует файл items.csv"):
+        Item.instantiate_from_csv(file_name="test")
 
 
 def test_repr(item_smartphone):
